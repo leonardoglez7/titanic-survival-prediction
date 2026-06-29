@@ -1,0 +1,5 @@
+
+__pycache__/ *.pyc *.pyo *.pyd venv/ env/
+models/*.pkl
+data/Titanic_clean.csv
+
