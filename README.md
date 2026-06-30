@@ -1,14 +1,26 @@
-```markdown
 # 🚢 Titanic Survival Prediction - ML Pipeline
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![scikit-learn 1.2+](https://img.shields.io/badge/scikit--learn-1.2+-orange.svg)](https://scikit-learn.org/)
+[
 
-Pipeline profesional de Machine Learning para predecir la supervivencia de pasajeros del Titanic utilizando **Programación Orientada a Objetos (OOP)** y técnicas de preprocesamiento con scikit-learn.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
+
+](https://www.python.org/)
+[
+
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.2%2B-orange.svg)
+
+](https://scikit-learn.org/)
+[
+
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+
+](LICENSE)
+
+Pipeline profesional de Machine Learning para predecir la supervivencia de pasajeros del Titanic, construido con una arquitectura modular orientada a objetos que compara Random Forest y Gradient Boosting, alcanzando un **83.24% de accuracy** y un **ROC-AUC de 0.8612**.
 
 ---
 
-## 📋 Tabla de Contenidos
+## 📑 Tabla de Contenidos
 
 - [Descripción del Proyecto](#-descripción-del-proyecto)
 - [Análisis Exploratorio (EDA)](#-análisis-exploratorio-eda)
@@ -19,174 +31,157 @@ Pipeline profesional de Machine Learning para predecir la supervivencia de pasaj
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Dependencias](#-dependencias)
 - [Próximos Pasos](#-próximos-pasos)
-- [Autor](#-autor)
+- [Autor y Licencia](#-autor-y-licencia)
 
 ---
 
-## 📊 Descripción del Proyecto
+## 🎯 Descripción del Proyecto
 
-Este proyecto implementa un pipeline de Machine Learning para predecir la supervivencia de pasajeros del Titanic. Desarrollado con enfoque modular y **Programación Orientada a Objetos (OOP)**, garantiza código limpio, mantenible y escalable.
+Este proyecto implementa un pipeline completo de Machine Learning para predecir si un pasajero del Titanic sobrevivió o no, basándose en variables como clase social, sexo, edad, tarifa pagada y puerto de embarque.
 
-> 💡 **Objetivo:** Crear un modelo predictivo con alto poder de generalización, evitando data leakage mediante `Pipeline` y `ColumnTransformer` de scikit-learn.
+**¿Por qué es un proyecto profesional?**
 
-### 🧰 Stack Tecnológico
+- **Programación Orientada a Objetos (OOP):** dos clases principales (`TitanicCleaner` y `TitanicModel`) que encapsulan toda la lógica de limpieza y modelado.
+- **Pipeline de scikit-learn:** todo el preprocesamiento (escalado, codificación) está integrado dentro de un `Pipeline`, evitando data leakage entre entrenamiento y prueba.
+- **Comparación de modelos:** evaluación rigurosa de Random Forest vs Gradient Boosting con métricas estándar de clasificación.
+- **Optimización de hiperparámetros:** uso de `GridSearchCV` para maximizar el rendimiento del modelo final.
 
-| Área | Herramientas |
-|------|--------------|
-| **Lenguaje** | Python 3.8+ |
-| **Data Handling** | Pandas, NumPy |
-| **Visualización** | Matplotlib, Seaborn |
-| **Machine Learning** | Scikit-learn (RandomForest, GradientBoosting, Pipeline, ColumnTransformer) |
-| **Optimización** | GridSearchCV, Cross-Validation |
+**Stack tecnológico:**
+
+- Python 3.8+
+- pandas, numpy
+- scikit-learn
+- matplotlib, seaborn
 
 ---
 
-## 🔍 Análisis Exploratorio (EDA)
+## 📊 Análisis Exploratorio (EDA)
 
-### 📈 Distribución de Supervivencia
+### Distribución de supervivencia
 
-![Distribución de Supervivencia](images/survived_distribution.png)
 
-- **61.6%** de los pasajeros no sobrevivieron.
-- Clase mayoritaria: `No sobrevivió (0)`.
 
-### 📊 Variables Numéricas vs Supervivencia
+![Distribución de supervivencia](images/survived_distribution.png)
 
-![Boxplots Numéricas](images/numeric_vs_survived.png)
 
-- **Edad (Age):** Los pasajeros sobrevivientes tienden a ser más jóvenes.
-- **Tarifa (Fare):** Los sobrevivientes pagaron tarifas significativamente más altas.
 
-### 📊 Variables Categóricas vs Supervivencia
+- El **61.6%** de los pasajeros no sobrevivió, frente al 38.4% que sí.
+- Confirma un dataset moderadamente desbalanceado, relevante a la hora de elegir métricas de evaluación.
 
-![Countplots Categóricas](images/categorical_vs_survived.png)
+### Variables numéricas vs Supervivencia
 
-- **Sexo (Sex):** Las mujeres tuvieron una tasa de supervivencia 3 veces mayor.
-- **Clase (Pclass):** La clase 1 tuvo la mayor tasa de supervivencia (~63%).
-- **Puerto de Embarque (Embarked):** Pasajeros de Cherburgo (C) tuvieron mayor tasa de supervivencia.
 
-### 🔥 Matriz de Correlación
 
-![Matriz de Correlación](images/correlation_matrix.png)
+![Numéricas vs Supervivencia](images/numeric_vs_survived.png)
 
-- `Pclass` y `Fare` tienen correlación negativa fuerte (-0.55).
-- `Age` y `Fare` muestran correlación positiva débil (0.12).
+
+
+- Los pasajeros que pagaron tarifas (`Fare`) más altas tuvieron mayor tasa de supervivencia.
+- La edad (`Age`) muestra una ligera tendencia: niños y jóvenes presentan mejor tasa de supervivencia.
+
+### Variables categóricas vs Supervivencia
+
+
+
+![Categóricas vs Supervivencia](images/categorical_vs_survived.png)
+
+
+
+- `Pclass`: los pasajeros de primera clase sobrevivieron en mayor proporción que los de tercera.
+- `Sex`: las mujeres tuvieron una tasa de supervivencia notablemente mayor que los hombres.
+- `Embarked`: el puerto de embarque muestra diferencias menores pero consistentes.
+
+### Matriz de correlación
+
+
+
+![Matriz de correlación](images/correlation_matrix.png)
+
+
+
+- `Fare` y `Pclass` muestran una correlación negativa fuerte (a mayor clase numérica, menor tarifa).
+- `Sex` (codificado) es una de las variables con mayor correlación respecto a `Survived`.
 
 ---
 
 ## 🧪 Metodología
 
-### 1️⃣ Limpieza de Datos
+### 1. Limpieza de datos
 
-- **Age:** Imputación por mediana según clase (`Pclass`).
-- **Embarked:** Imputación por moda.
-- **Cabin:** Eliminada por alto porcentaje de nulos (>70%).
-- **Name, Ticket, PassengerId:** Eliminadas por no tener poder predictivo directo.
+Implementada en la clase `TitanicCleaner`:
 
-### 2️⃣ Feature Engineering
+- **Imputación de `Age`:** se imputa por la mediana agrupada según `Pclass`, capturando mejor la distribución real de edades por clase social.
+- **Imputación de `Embarked`:** se rellena con la moda (valor más frecuente).
+- Eliminación de columnas no informativas o con exceso de valores nulos (`Cabin`, `Ticket`, `Name` en su forma original).
 
-- **FamilySize:** Tamaño de la familia (SibSp + Parch + 1).
-- **IsAlone:** Variable binaria que indica si viajaba solo.
+### 2. Feature Engineering
 
-### 3️⃣ Preprocesamiento con Pipeline
+- **`FamilySize`**: combinación de `SibSp` + `Parch` + 1, para capturar el tamaño total del grupo familiar.
+- **`isAlone`**: variable binaria que indica si el pasajero viajaba solo.
 
-```python
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+### 3. Preprocesamiento
 
-preprocessor = ColumnTransformer([
-    ('num', StandardScaler(), ['Age', 'Fare', 'FamilySize']),
-    ('cat', OneHotEncoder(drop='first'), ['Pclass', 'Sex', 'Embarked'])
-])
+- **`StandardScaler`** para variables numéricas.
+- **`OneHotEncoder`** para variables categóricas.
+- Todo integrado en un único `Pipeline` de scikit-learn, garantizando que el preprocesamiento se ajuste solo con datos de entrenamiento y se aplique de forma consistente al test, **previniendo data leakage**.
 
-pipeline = Pipeline([
-    ('preprocessor', preprocessor),
-    ('classifier', RandomForestClassifier(random_state=42))
-])
-```
+### 4. Modelos comparados
 
-4️⃣ Modelos y Optimización
+- **Random Forest Classifier**
+- **Gradient Boosting Classifier**
 
-· Random Forest: Robusto, menor riesgo de overfitting.
-· Gradient Boosting: Mayor precisión potencial.
+### 5. Optimización
 
-Optimización con GridSearchCV:
-
-```python
-param_grid = {
-    'classifier__n_estimators': [100, 200],
-    'classifier__max_depth': [5, 10, None],
-    'classifier__min_samples_split': [2, 5]
-}
-
-grid = GridSearchCV(pipeline, param_grid, cv=5, scoring='accuracy')
-```
+- Búsqueda de hiperparámetros mediante `GridSearchCV` con validación cruzada, optimizando sobre métricas de clasificación relevantes (accuracy / ROC-AUC).
 
 ---
 
-📈 Resultados
+## 📈 Resultados
 
-🏆 Comparación de Modelos
+| Modelo | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+|--------|----------|-----------|--------|----------|---------|
+| Random Forest | 0.8212 | 0.8491 | 0.6522 | 0.7377 | 0.8398 |
+| **Gradient Boosting** | **0.8324** | **0.8605** | **0.6812** | **0.7603** | **0.8612** |
 
-images/model_comparison.png
+> 🏆 **Gradient Boosting** fue seleccionado como modelo final por obtener el mejor desempeño en todas las métricas evaluadas.
 
-Modelo Accuracy Precision Recall F1-Score ROC-AUC
-Random Forest 0.8212 0.8491 0.6522 0.7377 0.8398
-Gradient Boosting 0.8324 0.8605 0.6812 0.7603 0.8612
 
-🏆 Gradient Boosting fue el modelo ganador con 83.24% de accuracy.
 
-🔥 Matriz de Confusión
+![Comparación de modelos](images/model_comparison.png)
 
-images/confusion_matrix.png
 
- Pred. No Sobrevive Pred. Sobrevive
-Real No Sobrevive 83 11
-Real Sobrevive 13 26
 
-· ✅ Verdaderos Negativos: 83
-· ❌ Falsos Positivos: 11
-· ❌ Falsos Negativos: 13
-· ✅ Verdaderos Positivos: 26
 
-🔥 Importancia de Características
 
-images/feature_importance.png
+![Matriz de confusión](images/confusion_matrix.png)
 
-Top 5 variables más importantes:
 
-1. Sex_male (0.32) → el sexo masculino reduce drásticamente la supervivencia.
-2. Fare (0.18) → tarifa alta = más probabilidad de sobrevivir.
-3. Pclass_3 (0.12) → clase 3 reduce supervivencia.
-4. Age (0.11) → pasajeros jóvenes sobreviven más.
-5. Pclass_2 (0.08) → clase 2 también influye.
+
+
+
+![Importancia de variables](images/feature_importance.png)
+
+
+
+**¿Qué significa cada métrica?**
+
+- **Accuracy:** proporción total de predicciones correctas.
+- **Precision:** de los pasajeros predichos como sobrevivientes, cuántos realmente lo fueron.
+- **Recall:** de los pasajeros que realmente sobrevivieron, cuántos fueron correctamente identificados.
+- **F1-Score:** media armónica entre precision y recall, útil ante clases desbalanceadas.
+- **ROC-AUC:** capacidad del modelo para distinguir entre clases en distintos umbrales de decisión.
 
 ---
 
-💡 Interpretación de Negocio
+## 💡 Interpretación de Negocio
 
-¿Por qué Sex_male es el predictor #1?
-
-· Contexto histórico: "Mujeres y niños primero" fue la orden de evacuación.
-· Datos: Solo el 19% de los hombres sobrevivieron, vs el 74% de las mujeres.
-
-¿Por qué Pclass_3 es importante?
-
-· Acceso a botes salvavidas: La clase 3 estaba en las cubiertas inferiores.
-· Tasa de supervivencia: Clase 1 ≈ 63%, Clase 2 ≈ 47%, Clase 3 ≈ 24%.
-
-Validación Histórica del Modelo
-
-El modelo coincide con hechos históricos:
-
-· Mujeres y niños tuvieron prioridad.
-· Pasajeros de primera clase tuvieron mayor acceso a botes.
-· Pasajeros con tarifas altas sobrevivieron más.
+- **`Sex_male` es el predictor #1:** confirma el principio histórico de **"mujeres y niños primero"** aplicado durante la evacuación del Titanic. Ser hombre redujo drásticamente la probabilidad de supervivencia.
+- **`Pclass_3` es altamente relevante:** los pasajeros de tercera clase tenían menor acceso a botes salvavidas y cubiertas superiores, lo que se traduce en menor tasa de supervivencia.
+- **Validación histórica del modelo:** los patrones detectados por el modelo coinciden con los relatos históricos del desastre, lo que da credibilidad y coherencia narrativa a los resultados obtenidos.
 
 ---
 
-🛠️ Instalación y Uso
+## ⚙️ Instalación y Uso
 
 ```bash
 git clone https://github.com/leonardoglez7/titanic-survival-prediction.git
@@ -194,52 +189,3 @@ cd titanic-survival-prediction
 pip install -r requirements.txt
 python main.py
 python generate_images.py
-```
-
----
-
-📂 Estructura del Proyecto
-
-```bash
-titanic-survival-prediction/
-├── src/
-│   ├── __init__.py
-│   ├── data_cleaning.py      # Limpieza y EDA
-│   └── model_pipeline.py     # Entrenamiento y predicción
-├── data/
-│   └── Titanic.csv           # Dataset original
-├── images/                   # Visualizaciones generadas
-├── models/                   # Modelos serializados (.pkl)
-├── main.py                   # Orquestador del pipeline
-├── generate_images.py        # Genera visualizaciones
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
-
----
-
-📦 Dependencias
-
-```txt
-pandas>=1.5.0
-numpy>=1.24.0
-matplotlib>=3.6.0
-seaborn>=0.12.0
-scikit-learn>=1.2.0
-joblib>=1.2.0
-```
-
----
-
-🚀 Próximos Pasos
-
-Área Mejora Impacto esperado
-Feature Engineering Extraer títulos de Name +1-2% accuracy
-Modelos Avanzados Probar XGBoost / LightGBM +2-3% accuracy
-Balanceo de clases Aplicar SMOTE o class_weight Mejorar Recall
-Validación TimeSeriesSplit Mayor robustez
-
-
-```
-
